@@ -1,25 +1,27 @@
 import { AuthService } from './auth.service';
-import { Controller, Post } from '@nestjs/common';
+import { Body, Controller, Post } from '@nestjs/common';
+import { AuthDto } from './dto/auth.dto';
 
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
-  @Post('signup')
-  async signup() {
-    const user = await this.authService.signup();
+  @Post('/signup')
+  async signup(@Body() authDto: AuthDto) {
+    const user = await this.authService.signup(authDto);
     return {
       statusCode: 201,
-      succes: true,
+      success: true,
       resuts: user,
     };
   }
-  @Post('signin')
-  async signin() {
-    const user = await this.authService.login();
+  @Post('/signin')
+  async signin(@Body() authDto: AuthDto) {
+    const user = await this.authService.signin(authDto);
     return {
       statusCode: 201,
       succes: true,
+      message: "user login successfully!!!." ,
       resuts: user,
-    };
+    }
   }
 }
